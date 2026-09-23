@@ -209,6 +209,59 @@ This project is prepared for standard AWS multi-tier cloud deployment:
 5. **Razorpay Webhooks:** Configured on the live EC2 public URL / custom domain to capture asynchronous payment confirmations.
 
 ---
+## 🚀 AWS Deployment & Team Deployment Verification
+
+The GymMS application was deployed and tested on Amazon Web Services (AWS) as part of the team deployment.
+
+### AWS Components Used
+
+- **Amazon VPC** — Provides the isolated virtual network for the application.
+- **Public Subnet** — Hosts the EC2 instance used for the web application.
+- **Private Subnets** — Used for the Amazon RDS database configuration.
+- **Internet Gateway** — Provides internet connectivity to resources in the public subnet.
+- **Route Tables** — Control traffic routing within the VPC and between the public subnet and Internet Gateway.
+- **Security Groups** — Control inbound and outbound network traffic for EC2 and RDS.
+- **Amazon EC2** — Hosts the Nginx web server and Node.js/Express backend.
+- **Amazon RDS for MySQL** — Provides the managed MySQL database.
+- **Nginx** — Serves the React frontend and routes application requests.
+- **Node.js/Express** — Provides the backend REST API.
+
+### Deployment Flow
+
+```text
+User Browser
+     │
+     ▼
+  Internet
+     │
+     ▼
+Internet Gateway
+     │
+     ▼
+Public Subnet
+     │
+     ▼
+EC2 + Nginx
+     │
+     ├── React Frontend
+     │
+     └── Node.js / Express Backend
+              │
+              │ MySQL :3306
+              ▼
+        Amazon RDS MySQL
+        (Private Subnets)
+
+### Database Connectivity
+
+The Node.js backend running on the EC2 instance connects to the Amazon RDS MySQL database using the RDS endpoint configured through the server environment variables. Access to the database is controlled through the configured security groups.
+
+### Deployment Verification
+
+The deployed GymMS application was accessed externally through the EC2 public IPv4 address. The React frontend, Node.js/Express backend, and connection to the Amazon RDS database were tested successfully during deployment.
+
+The deployment was verified using AWS Console resources and application-level testing through the web interface.
+
 
 ## 📄 License
 This project is licensed under the MIT License.
